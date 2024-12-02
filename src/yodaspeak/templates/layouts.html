@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A simple application to translate english into Yoda's version which is mostly, back to front. Or in other words,object–subject–verb word order.">
+    <meta name="author" content="Ryan Blunden">
+      
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'yodaspeak/css/app.css' %}">
+
+    <link rel="icon" href="{% static 'yodaspeak/img/favicon-32x32.png' %}" sizes="32x32" type="image/png">
+    {# Generated with: https://realfavicongenerator.net/ #}
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'safari-pinned-tab.svg' %}" color="#61b9d2">
+    <meta name="msapplication-TileColor" content="#da532c"> -->
+  </head>
+
+  <body>
+    {% block content %}{% endblock %}
+</html>

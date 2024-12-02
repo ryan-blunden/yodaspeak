@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "python: server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/manage.py",
+            "args": ["runserver_plus", "0.0.0.0:8000"],
+            "env": {
+                "DOPPLER_TOKEN": "$DOPPLER_TOKEN",
+                "DOPPLER_ENV": "1"
+            }
+        }
+    ]
+}

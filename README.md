@@ -44,7 +44,6 @@ out for something else on your own.
 
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
-- [Celery](https://github.com/celery/celery)
 
 ### Front-end
 
@@ -90,8 +89,8 @@ not all) note worthy additions and changes.
     - *[isort](https://github.com/PyCQA/isort)* is used to auto-sort Python imports
     - *[black](https://github.com/psf/black)* is used to format the code base
 - **Django apps**:
-    - Add `pages` app to render a home page
-    - Add `up` app to provide a few health check pages
+    - Add `yodaspeak` app to render a home page
+    - Add `up` app to provide a few health check yodaspeak
 - **Config**:
     - Log to STDOUT so that Docker can consume and deal with log output
     - Extract a bunch of configuration settings into environment variables
@@ -99,13 +98,11 @@ not all) note worthy additions and changes.
     - `src/config/settings.py` and the `.env` file handles configuration in all environments
 - **Front-end assets**:
     - `assets/` contains all your CSS, JS, images, fonts, etc. and is managed by esbuild
-    - Custom `502.html` and `maintenance.html` pages
+    - Custom `502.html` and `maintenance.html` yodaspeak
     - Generate favicons using modern best practices
 - **Django defaults that are changed**:
     - Use Redis as the default Cache back-end
     - Use signed cookies as the session back-end
-    - `public/` is the static directory where Django will serve static files from
-    - `public_collected/` is where `collectstatic` will write its files to
 
 Besides the Django app itself:
 
@@ -141,8 +138,8 @@ these commands for PowerShell if you want.
 #### Clone this repo anywhere you want and move into the directory:
 
 ```sh
-git clone https://github.com/nickjj/docker-django-example hellodjango
-cd hellodjango
+git clone https://github.com/nickjj/docker-django-example yodaspeak
+cd yodaspeak
 
 # Optionally checkout a specific tag, such as: git checkout 0.11.0
 ```
@@ -271,9 +268,9 @@ able to run `run` instead of `./run`.*
 
 ## Running a script to automate renaming the project
 
-The app is named `hello` right now but chances are your app will be a different
+The app is named `yodaspeak` right now but chances are your app will be a different
 name. Since the app is already created we'll need to do a find / replace on a
-few variants of the string "hello" and update a few Docker related resources.
+few variants of the string "yodaspeak" and update a few Docker related resources.
 
 And by we I mean I created a zero dependency shell script that does all of the
 heavy lifting for you. All you have to do is run the script below.

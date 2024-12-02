@@ -1,0 +1,20 @@
+-r production.txt
+
+Werkzeug[watchdog]==2.3.7 # https://github.com/pallets/werkzeug
+ipdb==0.13.13  # https://github.com/gotcha/ipdb
+
+# Code quality
+# ------------------------------------------------------------------------------
+flake8==6.0.0  # https://github.com/PyCQA/flake8
+flake8-isort==6.1.1  # https://github.com/gforcada/flake8-isort
+black==23.3.0  # https://github.com/psf/black
+pylint-django==2.5.3  # https://github.com/PyCQA/pylint-django
+
+# Django
+# ------------------------------------------------------------------------------
+django-extensions==3.2.3  # https://github.com/django-extensions/django-extensions
+
+# Security
+# ------------------------------------------------------------------------------
+doppler-env==0.3.1  # https://github.com/dopplerhq/python-doppler-env
+pyopenssl==23.2.0  # https://github.com/pyca/pyopenssl

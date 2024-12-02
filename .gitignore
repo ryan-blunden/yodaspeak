@@ -3,11 +3,6 @@
 
 ### App #######################################################################
 
-public/*
-!public/.keep
-public_collected/*
-!public_collected/.keep
-
 .env*
 !.env.example
 docker-compose.override.yml
@@ -64,10 +59,6 @@ pytestdebug.log
 # Flask stuff
 instance/
 .webassets-cache
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
 
 # Sphinx documentation
 docs/_build/
@@ -216,3 +207,7 @@ flycheck_*.el
 
 # network security
 /network-security.data
+
+# App
+yodaspeak.db
+src/static
