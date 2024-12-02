@@ -1,10 +1,10 @@
 .git/
 .pytest_cache/
 __pycache__/
-
+.venv
+.vscode
 .coverage
 .dockerignore
 *.env*
-!.env.example
 
 docker-compose.override.yml

@@ -38,7 +38,7 @@ class App {
         })
             .then(res => res.json())
             .then(data => {
-                reveal(data.translation ? data.translation : data.error)
+                reveal(data.translation ? data.translation : data.message)
             })
             .catch(error => {
                 reveal('Sorry, am I, as translate your message, I cannot.')

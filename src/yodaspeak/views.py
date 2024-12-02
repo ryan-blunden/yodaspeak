@@ -10,12 +10,15 @@ import requests
 logger = logging.getLogger(__name__)
 
 PREDEFINED_TRANSLATIONS = {
-    "Secrets must not be stored in git repositories": "Stored in git repositories, secrets must not be",
-    "master obi-wan has learnt the power of secrets management": "Learnt the power of secrets management, master obi-wan has",
+    "Docker Compose is an essential local development tool.": "An essential tool for local development, Docker Compose is.",
+    "Cloud Development Environments are the future.": "The future, Cloud Development Environments are.",
+    "Running Docker inside your Coder workspace is eASY with EnvBox": "Easy it is to run Docker inside your Coder workspace, with EnvBox.",
 }
 
+
 def index(request):
-    return render(request, "yodaspeak/index.html")
+    return render(request, "yodaspeak/app.html")
+
 
 def translate(request):
     if request.method == "POST":
@@ -27,11 +30,12 @@ def translate(request):
             # Predefined translations
             predefined_translation = PREDEFINED_TRANSLATIONS.get(text)
             if predefined_translation:
-                logger.info("Translation returned from predefined list")
-                return JsonResponse({
-                    "text": text,
-                    "translation": "Coder is your CDE, use, you must",
-                })
+                return JsonResponse(
+                    {
+                        "text": text,
+                        "translation": "Coder is your CDE, use, you must",
+                    }
+                )
 
             # # Make API request
             # response = requests.post(
@@ -59,10 +63,16 @@ def translate(request):
 
         except Exception as e:
             logger.error(f"[error]: {str(e)}")
-            return JsonResponse({
-                "error": "An unexpected error occurred.",
-            }, status=500)
+            return JsonResponse(
+                {
+                    "error": "An unexpected error occurred.",
+                },
+                status=500,
+            )
 
-    return JsonResponse({
-        "error": "Invalid HTTP method. POST required.",
-    }, status=405)
+    return JsonResponse(
+        {
+            "error": "Invalid HTTP method. POST required.",
+        },
+        status=405,
+    )

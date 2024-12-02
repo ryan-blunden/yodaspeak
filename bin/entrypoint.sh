@@ -14,20 +14,13 @@ set -o nounset
 #
 #--------------------------------------------
 
-#-----------------------------------------------------------
-# Wait for DB to be able to accept a socket connection
-#-----------------------------------------------------------
-
-./bin/wait-for-it.sh ${POSTGRES_HOST}:${POSTGRES_PORT} -- echo "[info]: DB is up at ${POSTGRES_HOST} on ${POSTGRES_PORT}."
-
-
 #-------------------------------------------------------------------------------
 # Optional operations before application start
 #-------------------------------------------------------------------------------
 
 if [ -v INSTALL_DEV_PACKAGES ] && [ ! -f /tmp/.dev-packages-installed ]; then
     echo '[info]: Installing development packages as INSTALL_DEV_PACKAGES is set.'
-    pip install -r requirements/local.txt
+    pip install -r /app/requirements/local.txt
     touch /tmp/.dev-packages-installed
 fi
 
@@ -41,7 +34,7 @@ if [ -v DJANGO_MIGRATE ]; then
     ./manage.py migrate --noinput
 fi
 
-if [ -z DJANGO_DEBUG ]; then
+if [ -z DEBUG ]; then
     ./manage.py check --deploy
 fi
 

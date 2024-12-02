@@ -15,9 +15,6 @@ import socket
 import sys
 from distutils.util import strtobool
 from pathlib import Path
-from dotenv import load_dotenv
-
-load_dotenv()
 
 SITE_ID = 1
 
@@ -30,13 +27,13 @@ DEBUG = bool(strtobool(os.getenv("DEBUG", "false")))
 
 CACHE_ENABLED = bool(strtobool(os.getenv("CACHE_ENABLED", "false")))
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#std:setting-ALLOWED_HOSTS
 ALLOWED_HOSTS = list(map(str.strip, os.getenv("ALLOWED_HOSTS").split(",")))
 
 # Application definitions
-INSTALLED_APPS = [    
+INSTALLED_APPS = [
     "yodaspeak.apps.PagesConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -44,9 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-    'health_check',
-    'health_check.db',
+    "health_check",
+    "health_check.db",
 ]
 
 MIDDLEWARE = [
@@ -85,10 +81,10 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'django.template.context_processors.static',
+                "django.template.context_processors.static",
             ],
             "loaders": default_loaders if DEBUG else cached_loaders,
-            "debug": DEBUG
+            "debug": DEBUG,
         },
     },
 ]
@@ -98,20 +94,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASE_ENGINES = {
-    'SQLITE': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'yodaspeak.db',
+    "SQLITE": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "yodaspeak.db",
     },
-    'POSTGRES': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+    "POSTGRES": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
     },
 }
-DATABASES = {'default': DATABASE_ENGINES[os.getenv('DATABASE_ENGINE', 'SQLITE')]}
+DATABASES = {"default": DATABASE_ENGINES[os.getenv("DATABASE_ENGINE", "SQLITE")]}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -161,15 +157,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
 STATICFILES_DIRS = ()
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # App Settings
-YODA_TRANSLATE_API_ENDPOINT = os.getenv("YODA_TRANSLATE_API_ENDPOINT", "https://api.funtranslations.com/translate/yoda.json")
+YODA_TRANSLATE_API_ENDPOINT = os.getenv(
+    "YODA_TRANSLATE_API_ENDPOINT", "https://api.funtranslations.com/translate/yoda.json"
+)
 YODA_TRANSLATE_API_KEY = os.getenv("YODA_TRANSLATE_API_ENDPOINT", "")
