@@ -10,16 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import json
 import os
-import socket
-import sys
 from distutils.util import strtobool
 from pathlib import Path
-
-SITE_ID = 1
-
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file if it exists
+if os.path.exists(os.path.join(BASE_DIR, ".env")):
+    print("[info]: loading environment variables from .env file")
+    load_dotenv()
+
+if os.getenv("DOPPLER_PROJECT"):
+    print("[info]: loading environment variables from Doppler")
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
@@ -170,4 +175,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 YODA_TRANSLATE_API_ENDPOINT = os.getenv(
     "YODA_TRANSLATE_API_ENDPOINT", "https://api.funtranslations.com/translate/yoda.json"
 )
-YODA_TRANSLATE_API_KEY = os.getenv("YODA_TRANSLATE_API_ENDPOINT", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+YODASPEAK_PROMPT = ""
+with open(os.path.join(BASE_DIR, "config/yodaspeak_prompt.txt"), "r") as file:
+    YODASPEAK_PROMPT = file.read().strip()
+TRANSLATE_SAMPLES = json.loads(os.getenv("TRANSLATE_SAMPLES", "{}"))
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "")

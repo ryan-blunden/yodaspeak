@@ -1,10 +1,7 @@
+from django.conf import settings
 from ninja import NinjaAPI, Schema
 
-PREDEFINED_TRANSLATIONS = {
-    "Docker Compose is an essential local development tool": "An essential tool for local development, Docker Compose is.",
-    "Cloud Development Environments are the future": "The future, Cloud Development Environments are.",
-    "Running Docker inside your Coder workspace is easy with EnvBox": "Easy it is to run Docker inside your Coder workspace, with EnvBox.",
-}
+from .translate import translate_request
 
 api = NinjaAPI()
 
@@ -23,8 +20,12 @@ class Message(Schema):
 
 @api.post("/translate", response={200: TranslateResponse, 400: Message, 500: Message})
 def translate(request, translate: TranslateRequest):
-    predefined_translation = PREDEFINED_TRANSLATIONS.get(translate.text)
-    if predefined_translation:
-        return 200, {"translation": predefined_translation}
-    else:
-        return 400, {"message": "Sorry, am I, as translate your message, I cannot."}
+    sample = settings.TRANSLATE_SAMPLES.get(translate.text)
+    if sample:
+        return 200, {"translation": sample}
+
+    try:
+        response = translate_request(translate.text)
+        return 200, {"translation": response.content}
+    except Exception as e:
+        return 400, {"message": f"Sorry, am I, as translate your message, I cannot. Error: {str(e)}"}

@@ -26,10 +26,10 @@
         <div class="form-row">
           <div class="col-sm-8 col-md-9 mt-2">
             <label for="input" class="sr-only">Text to translate</label>
-            <input name="text" type="text" class="form-control rounded translate-text"
+            <input name="text" type="text" class="form-control rounded translate-text" maxlength="20"
               placeholder="Text to translate" required autofocus
               value="{% if text %}{{ text }}{% endif %}" />
-          </div>
+            </div>
           <div class="col-sm-4 col-md-3 mt-2">
             <button class="btn btn-md btn-primary form-control text-uppercase" type="submit">Translate</button>
           </div>

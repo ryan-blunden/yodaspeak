@@ -1,0 +1,6 @@
+{
+    "makefile.configureOnOpen": false,
+    "flake8.args": [
+        "--config=.flake8"
+    ]
+}

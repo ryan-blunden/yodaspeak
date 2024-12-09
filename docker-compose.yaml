@@ -25,6 +25,7 @@ services:
     build:
       context: "."
       target: "src"
+      dockerfile: docker/Dockerfile
     depends_on:
       postgres:
         condition: "service_started"
