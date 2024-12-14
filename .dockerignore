@@ -6,5 +6,8 @@ __pycache__/
 .coverage
 .dockerignore
 *.env*
-
-docker-compose.override.yml
+docker*
+src/config/translate_samples.json
+*.db
+Makefile
+.github

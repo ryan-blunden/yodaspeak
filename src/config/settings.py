@@ -172,14 +172,11 @@ STATICFILES_FINDERS = (
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # App Settings
-YODA_TRANSLATE_API_ENDPOINT = os.getenv(
-    "YODA_TRANSLATE_API_ENDPOINT", "https://api.funtranslations.com/translate/yoda.json"
-)
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 YODASPEAK_PROMPT = ""
 with open(os.path.join(BASE_DIR, "config/yodaspeak_prompt.txt"), "r") as file:
     YODASPEAK_PROMPT = file.read().strip()
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "")
 TRANSLATE_SAMPLES = {}
 translate_samples_path = os.path.join(BASE_DIR, "config/translate_samples.json")
 if os.path.exists(translate_samples_path):
