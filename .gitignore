@@ -211,3 +211,4 @@ flycheck_*.el
 # App
 yodaspeak.db
 src/static
+src/config/translate_samples.json

@@ -179,5 +179,9 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 YODASPEAK_PROMPT = ""
 with open(os.path.join(BASE_DIR, "config/yodaspeak_prompt.txt"), "r") as file:
     YODASPEAK_PROMPT = file.read().strip()
-TRANSLATE_SAMPLES = json.loads(os.getenv("TRANSLATE_SAMPLES", "{}"))
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "")
+TRANSLATE_SAMPLES = {}
+translate_samples_path = os.path.join(BASE_DIR, "config/translate_samples.json")
+if os.path.exists(translate_samples_path):
+    with open(translate_samples_path, "r") as file:
+        TRANSLATE_SAMPLES = json.load(file)

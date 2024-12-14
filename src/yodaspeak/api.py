@@ -20,7 +20,7 @@ class Message(Schema):
 
 @api.post("/translate", response={200: TranslateResponse, 400: Message, 500: Message})
 def translate(request, translate: TranslateRequest):
-    sample = settings.TRANSLATE_SAMPLES.get(translate.text)
+    sample = settings.TRANSLATE_SAMPLES.get(translate.text[:100])
     if sample:
         return 200, {"translation": sample}
 
