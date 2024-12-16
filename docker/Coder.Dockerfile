@@ -21,13 +21,15 @@ RUN apt-get update \
   rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man && \
   apt-get clean && \
   \
-  (curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh || wget -t 3 -qO- https://cli.doppler.com/install.sh) | sh
+  wget -t 3 -qO- https://cli.doppler.com/install.sh | sh
 
 # Add a user `coder` so that you're not developing as `root`
-RUN useradd coder \
+RUN useradd coder \    
+    --create-home \
+    --shell /bin/bash \
     --groups sudo \
-    --no-create-home \
-    --shell /bin/bash && \
+    --uid=1000 \
+    --user-group && \
     echo "coder ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/coder && \
     chmod 0440 /etc/sudoers.d/coder
 
