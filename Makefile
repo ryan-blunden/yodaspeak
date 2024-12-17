@@ -53,5 +53,4 @@ app-venv-setup:
 	pip install -r ../requirements/local.txt
 
 dev-server:
-	source src/.venv/bin/activate && \
-	./src/manage.py runserver 0.0.0.0:8000
+	./src/manage.py runserver_plus 0.0.0.0:8000
