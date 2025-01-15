@@ -8,6 +8,7 @@ body {
   font-family: Ubuntu, Helvetica, sans-serif;
   color: #f2f4f8;
   background: linear-gradient(90deg, #00032a 0%, #2b003f 100%);
+  overflow: hidden;
 }
 
 #stars {
