@@ -14,17 +14,15 @@ import json
 import os
 from distutils.util import strtobool
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env file if it exists
 if os.path.exists(os.path.join(BASE_DIR, ".env")):
-    print("[info]: loading environment variables from .env file")
     load_dotenv()
-
-if os.getenv("DOPPLER_PROJECT"):
-    print("[info]: loading environment variables from Doppler")
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
@@ -48,6 +46,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "health_check",
     "health_check.db",
+    "health_check.cache",
+    "health_check.contrib.psutil",
+    "health_check.contrib.redis",
 ]
 
 MIDDLEWARE = [
@@ -174,11 +175,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # App Settings
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
 YODASPEAK_PROMPT = ""
 with open(os.path.join(BASE_DIR, "config/yodaspeak_prompt.txt"), "r") as file:
     YODASPEAK_PROMPT = file.read().strip()
+
 TRANSLATE_SAMPLES = {}
-translate_samples_path = os.path.join(BASE_DIR, "config/translate_samples.json")
-if os.path.exists(translate_samples_path):
-    with open(translate_samples_path, "r") as file:
-        TRANSLATE_SAMPLES = json.load(file)
+if TRANSLATE_SAMPLES_ENABLED := bool(strtobool(os.getenv("TRANSLATE_SAMPLES_ENABLED", "false"))):
+    translate_samples_path = os.path.join(BASE_DIR, "config/translate_samples.json")
+    if os.path.exists(translate_samples_path):
+        with open(translate_samples_path, "r") as file:
+            TRANSLATE_SAMPLES = json.load(file)

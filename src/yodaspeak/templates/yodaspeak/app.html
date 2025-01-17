@@ -26,9 +26,14 @@
         <div class="form-row">
           <div class="col-sm-8 col-md-9 mt-2">
             <label for="input" class="sr-only">Text to translate</label>
-            <input name="text" type="text" class="form-control rounded translate-text" maxlength="100"
-              placeholder="Text to translate" required autofocus
-              value="{% if text %}{{ text }}{% endif %}" />
+            <input list="sample-translations" name="text" type="text" class="form-control rounded translate-text" maxlength="100" placeholder="Text to translate" required autofocus>
+              <datalist id="sample-translations">
+                {% for translation in translate_samples %}
+                  <option>{{ translation }}</option>
+                {% endfor %}
+              </datalist>
+            </input>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"/>
             </div>
           <div class="col-sm-4 col-md-3 mt-2">
             <button class="btn btn-md btn-primary form-control text-uppercase" type="submit">Translate</button>
