@@ -3,7 +3,7 @@ services:
     container_name: app
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     depends_on:
       postgres:
         condition: service_healthy

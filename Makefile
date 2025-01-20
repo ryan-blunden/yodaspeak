@@ -13,10 +13,10 @@ lint-dockerfile:
 	docker run --rm -i hadolint/hadolint hadolint - < "coder/Dockerfile"
 
 docker-app-build-amd64:
-	docker buildx build -t ryanblunden/yodaspeak:$(version) . -f docker/Dockerfile --platform linux/amd64
+	docker buildx build -t ryanblunden/yodaspeak:$(version) . --platform linux/amd64
 
 docker-app-build-arm64:	
-	docker buildx build -t ryanblunden/yodaspeak:$(version) . -f docker/Dockerfile --platform linux/arm64
+	docker buildx build -t ryanblunden/yodaspeak:$(version) . --platform linux/arm64
 
 docker-app-push-amd64:
 	docker image push ryanblunden/yodaspeak:$(version) --platform linux/amd64
