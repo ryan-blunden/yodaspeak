@@ -1,6 +1,9 @@
 FROM ubuntu:noble
 LABEL maintainer="Ryan Blunden <ryan.blunden@gmail.com>"
 
+# Change to bust the Docker cache and install latest package versions
+ARG LAST_UPDATED=2025-01-22
+
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV DOPPLER_ENV="1"
 ENV PYTHONUNBUFFERED="1"
@@ -12,7 +15,6 @@ ENV PATH="${PATH}:/home/coder/.local/bin"
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
-
 
 RUN \
   # Add Docker's official GPG key and add repository to apt sources
@@ -51,7 +53,7 @@ RUN \
     jq \
     sudo \
     \
-    # App dependencies
+    # Python app dependencies for local development
     pipx \
     python3 \
     python3-pip \
@@ -73,7 +75,7 @@ RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 # Generate the default locale
 RUN locale-gen en_US.UTF-8
 
-# Add ``coder` user to avoid developing as root
+# Add `coder` user to avoid developing as root
 RUN userdel -r ubuntu && \
     useradd coder \
     --create-home \

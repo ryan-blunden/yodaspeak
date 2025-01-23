@@ -1,6 +1,7 @@
 services:
   app:
     container_name: app
+    image: ryanblunden/yodaspeak
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,7 +23,7 @@ services:
       - ${PWD}/src:/app/src
       - ${PWD}/bin:/app/bin
       - ${PWD}/requirements:/app/requirements
-      - home:/home/yodaspeak # Location of Python dependencies and locally installed binaries
+      - yodaspeak:/home/yodaspeak # Persist development dependencies
 
   postgres:
     image: postgres:16-alpine
@@ -55,6 +56,6 @@ services:
       - redis:/redis
 
 volumes:
-  home: {}
+  yodaspeak: {}
   postgres: {}
   redis: {}
