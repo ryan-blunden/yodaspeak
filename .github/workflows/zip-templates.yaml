@@ -1,0 +1,49 @@
+name: Zip and Commit Templates
+
+on:
+  push:
+    paths:
+      - 'templates/**' # Trigger only when files in the templates directory change
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  zip_and_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Zip each subdirectory in templates
+      - name: Zip templates
+        run: |
+          BASE_DIR="coder/templates"
+
+            for dir in "$BASE_DIR"/*/; do
+                # Get the folder name (without trailing slash)
+                folder_name=$(basename "$dir")
+
+                zip_file="$BASE_DIR/${folder_name}.zip"
+                echo "Creating zip file: $zip_file"
+
+                # Zip only the contents of the directory, not the directory itself
+                (cd "$dir" && zip -r "../${folder_name}.zip" ./*)
+            done
+
+      # Step 3: Stage changes, commit, and push
+      - name: Commit and push changes
+        run: |
+          # Stage all changes in the templates directory
+          git add coder/templates/*.zip
+
+          # Check if there are any changes staged for commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            echo "Changes detected. Adding and committing template zip file updates..."
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "Update Coder template zip files"
+            git push
+          fi
