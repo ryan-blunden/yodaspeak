@@ -522,5 +522,5 @@ module "dotfiles" {
   source                = "registry.coder.com/modules/dotfiles/coder"
   version               = "1.0.18"
   agent_id              = coder_agent.main.id
-  coder_parameter_order = "20"
+  coder_parameter_order = 20
 }
