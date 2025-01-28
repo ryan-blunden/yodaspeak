@@ -352,7 +352,7 @@ resource "kubernetes_deployment" "main" {
 
           env {
             name  = "CODER_INNER_IMAGE"
-            value = "index.docker.io/ryanblunden/coder-base"
+            value = "index.docker.io/ryanblunden/coder-base:latest"
           }   
 
           env {

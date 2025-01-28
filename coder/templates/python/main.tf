@@ -306,7 +306,7 @@ resource "kubernetes_deployment" "main" {
 
         container {
           name              = "dev"
-          image             = "ryanblunden/coder-base:0.1.0"
+          image             = "ryanblunden/coder-base:latest"
           image_pull_policy = "Always"
           command           = ["sh", "-c", coder_agent.main.init_script]
           security_context {
