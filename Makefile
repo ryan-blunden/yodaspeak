@@ -30,20 +30,22 @@ dev-server:
 doppler-run-dev-server:
 	doppler run -- ./src/manage.py runserver_plus 0.0.0.0:8000
 
-doppler-run-docker-compose:
-	doppler run --mount .env --mount-format docker -- docker compose up
+doppler-docker-compose-up:
+	@trap 'rm -f .env; exit' INT TERM; \
+	doppler secrets download --no-file --format docker > .env && \
+	docker compose up; \
+	rm -f .env
 
+doppler-docker-compose-reset:
+	@trap 'rm -f .env; exit' INT TERM; \
+	doppler secrets download --no-file --format docker > .env && \
+	docker compose down -v; \
+	rm -f .env
 
 #___ CODER ___#
 
-docker-coder-build-amd64:
-	docker buildx build -t ryanblunden/yodaspeak-coder:$(version) . -f coder/Dockerfile --platform linux/amd64
+docker-coder-build:
+	docker buildx build -t ryanblunden/yodaspeak-coder:$(version) . -f coder/Dockerfile --platform linux/arm/v7,linux/arm64/v8,linux/amd64
 
-docker-coder-build-arm64:
-	docker buildx build -t ryanblunden/yodaspeak-coder:$(version) . -f coder/Dockerfile --platform linux/arm64
-
-docker-coder-push-amd64:
-	docker image push ryanblunden/yodaspeak-coder:$(version) --platform linux/amd64
-
-docker-coder-push-arm64:
-	docker image push ryanblunden/yodaspeak-coder:$(version) --platform linux/arm64
+docker-coder-push:
+	docker image push ryanblunden/yodaspeak-coder:$(version)
