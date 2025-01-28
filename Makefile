@@ -12,17 +12,12 @@ format:
 lint-dockerfile:
 	docker run --rm -i hadolint/hadolint hadolint - < "coder/Dockerfile"
 
-docker-app-build-amd64:
-	docker buildx build -t ryanblunden/yodaspeak:$(version) . --platform linux/amd64
+docker-app-build:
+	docker image pull python:3.13
+	docker buildx build -t ryanblunden/yodaspeak:$(version) . --platform linux/arm/v7,linux/arm64/v8,linux/amd64
 
-docker-app-build-arm64:	
-	docker buildx build -t ryanblunden/yodaspeak:$(version) . --platform linux/arm64
-
-docker-app-push-amd64:
-	docker image push ryanblunden/yodaspeak:$(version) --platform linux/amd64
-
-docker-app-push-arm64:
-	docker image push ryanblunden/yodaspeak:$(version) --platform linux/arm64
+docker-app-push:
+	docker image push ryanblunden/yodaspeak:$(version)
 
 dev-server:
 	./src/manage.py runserver_plus 0.0.0.0:8000
