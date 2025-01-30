@@ -26,13 +26,13 @@ doppler-run-dev-server:
 	doppler run -- ./src/manage.py runserver_plus 0.0.0.0:8000
 
 doppler-docker-compose-up:
-	@trap 'rm -f .env; exit' INT TERM; \
+	trap 'rm -f .env; exit' INT TERM; \
 	doppler secrets download --no-file --format docker > .env && \
 	docker compose up; \
 	rm -f .env
 
 doppler-docker-compose-reset:
-	@trap 'rm -f .env; exit' INT TERM; \
+	trap 'rm -f .env; exit' INT TERM; \
 	doppler secrets download --no-file --format docker > .env && \
 	docker compose down -v; \
 	rm -f .env
