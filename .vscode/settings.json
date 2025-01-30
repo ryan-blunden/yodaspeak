@@ -1,6 +1,9 @@
 {
-    "makefile.configureOnOpen": false,
-    "flake8.args": [
-        "--config=.flake8"
-    ]
+  "makefile.configureOnOpen": false,
+  "flake8.args": ["--config=.flake8"],
+  "files.watcherExclude": {
+    ".git/objects/**": true,
+    ".git/subtree-cache/**": true,
+    ".venv/*/**": true
+  }
 }
