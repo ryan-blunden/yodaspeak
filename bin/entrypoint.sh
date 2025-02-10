@@ -18,23 +18,23 @@ set -o nounset
 # Optional operations before application start
 #-------------------------------------------------------------------------------
 
-if [ -v INSTALL_DEV_PACKAGES ] && [ ! -f /tmp/.dev-packages-installed ]; then
-    echo '[info]: Installing development packages as INSTALL_DEV_PACKAGES is set.'
+if [ "${INSTALL_DEV_PACKAGES,,}" == "true" ] && [ ! -f /tmp/.dev-packages-installed ]; then
+    echo '[info]: Installing development packages as INSTALL_DEV_PACKAGES is true.'
     pip install -r /app/requirements/local.txt
     touch /tmp/.dev-packages-installed
 fi
 
-if [ -v DJANGO_COLLECTSTATIC ]; then
-    echo '[info]: Collecting static resources as DJANGO_COLLECTSTATIC is set.'
+if [ "${DJANGO_COLLECTSTATIC,,}" == "true" ]; then
+    echo '[info]: Collecting static resources as DJANGO_COLLECTSTATIC is true.'
     ./manage.py collectstatic --noinput
 fi
 
-if [ -v DJANGO_MIGRATE ]; then
-    echo '[info]: Performing database migrations as DJANGO_MIGRATE is set.'
+if [ "${DJANGO_MIGRATE,,}" == "true" ]; then
+    echo '[info]: Performing database migrations as DJANGO_MIGRATE is true.'
     ./manage.py migrate --noinput
 fi
 
-if [ -z DEBUG ]; then
+if [ "${DEBUG,,}" != "true" ]; then
     ./manage.py check --deploy
 fi
 
@@ -46,6 +46,6 @@ fi
 # Generate SENTRY_RELEASE environment variable for release tracking
 # TODO
 
-echo "[info]: Starting application with command - \"${@}.\""
+echo "[info]: Starting application with command: '$*'."
 exec "$@"
 

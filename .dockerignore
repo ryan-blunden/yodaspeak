@@ -7,7 +7,6 @@ __pycache__/
 .dockerignore
 *.env*
 docker*
-src/config/translate_samples.json
 *.db
 Makefile
 .github
