@@ -31,6 +31,20 @@ variable "namespace" {
   description = "The Kubernetes namespace to create workspaces in (must exist prior to creating workspaces). If the Coder host is itself running as a Pod on the same Kubernetes cluster as you are deploying workspaces to, set this to the same namespace."
 }
 
+variable "create_tun" {
+  type        = bool
+  sensitive   = true
+  description = "Add a TUN device to the workspace."
+  default     = false
+}
+
+variable "create_fuse" {
+  type        = bool
+  description = "Add a FUSE device to the workspace."
+  sensitive   = true
+  default     = true
+}
+
 data "coder_parameter" "cpu" {
   name         = "cpu"
   display_name = "CPU"
@@ -106,27 +120,8 @@ data "coder_parameter" "doppler_token" {
   order   = 10
 }
 
-# EnvBox config
-variable "create_tun" {
-  type        = bool
-  sensitive   = true
-  description = "Add a TUN device to the workspace."
-  default     = false
-}
-
-variable "create_fuse" {
-  type        = bool
-  description = "Add a FUSE device to the workspace."
-  sensitive   = true
-  default     = true
-}
-
-provider "kubernetes" {
-  # Authenticate via ~/.kube/config or a Coder-specific ServiceAccount, depending on admin preferences
-  config_path = var.use_kubeconfig == true ? "~/.kube/config" : null
-}
-
 data "coder_workspace" "me" {}
+
 data "coder_workspace_owner" "me" {}
 
 resource "coder_agent" "main" {
@@ -226,6 +221,11 @@ resource "coder_agent" "main" {
     interval = 60
     timeout  = 1
   }
+}
+
+provider "kubernetes" {
+  # Authenticate via ~/.kube/config or a Coder-specific ServiceAccount, depending on admin preferences
+  config_path = var.use_kubeconfig == true ? "~/.kube/config" : null
 }
 
 resource "kubernetes_persistent_volume_claim" "home" {
