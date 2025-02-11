@@ -13,15 +13,15 @@ services:
     command: python manage.py runserver_plus 0.0.0.0:8000
     develop:
       watch:
-        - action: sync
-          path: ./src
+        - path: ./src
           target: /app/src
-        - action: rebuild
-          path: ./requirements
+          action: sync
+        - path: ./requirements
           target: /app/requirements
-        - action: rebuild
-          path: ./bin
+          action: rebuild
+        - path: ./bin
           target: /app/bin
+          action: rebuild
     stdin_open: true
     tty: true
     ports:
