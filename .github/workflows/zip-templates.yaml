@@ -3,7 +3,7 @@ name: Zip and Commit Templates
 on:
   push:
     paths:
-      - 'templates/**' # Trigger only when files in the templates directory change
+      - 'coder/templates/**' # Trigger only when files in the templates directory change
   workflow_dispatch: # Allow manual triggering
 
 jobs:

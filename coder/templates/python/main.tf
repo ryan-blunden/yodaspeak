@@ -103,7 +103,7 @@ data "coder_parameter" "doppler_token" {
   type         = "string"
   icon         = "https://cdn.sanity.io/images/q3zajrd2/production/eb59a0d9476af5bf529c9af207071a5a45252628-400x400.png"
   mutable      = true
-  order   = 10
+  order        = 10
 }
 
 provider "kubernetes" {
