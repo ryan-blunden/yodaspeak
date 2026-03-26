@@ -1,7 +1,7 @@
 # ==== pytest ====
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--ds=config.settings.test --reuse-db"
+DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = [
     "tests.py",
     "test_*.py",
@@ -10,7 +10,7 @@ python_files = [
 # ==== black ====
 [tool.black]
 line-length = 119
-target-version = ['py311']
+target-version = ['py313']
 
 
 # ==== isort ====

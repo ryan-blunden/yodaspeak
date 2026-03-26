@@ -4,7 +4,6 @@ LABEL maintainer="Ryan Blunden <ryan.blunden@gmail.com>"
 ARG UID=1000
 ARG GID=1000
 
-ENV DOPPLER_ENV="1"
 ENV PYTHONUNBUFFERED="1"
 ENV PYTHONDONTWRITEBYTECODE="1"
 ENV PIP_DISABLE_PIP_VERSION_CHECK="1"
@@ -27,7 +26,7 @@ pip install --no-warn-script-location --no-cache-dir --user -r requirements/prod
 
 COPY --chown=yodaspeak:yodaspeak . .
 
-WORKDIR /app/src
+WORKDIR /app
 
 ENTRYPOINT ["/app/bin/entrypoint.sh"]
 

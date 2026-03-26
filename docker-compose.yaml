@@ -10,28 +10,13 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: python manage.py runserver_plus 0.0.0.0:8000
-    develop:
-      watch:
-        - path: ./src
-          target: /app/src
-          action: sync
-        - path: ./requirements
-          target: /app/requirements
-          action: rebuild
-        - path: ./bin
-          target: /app/bin
-          action: rebuild
-    stdin_open: true
-    tty: true
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
     env_file:
       - .env
     restart: on-failure
     stop_grace_period: 3s
-    volumes:
-      - yodaspeak:/home/yodaspeak # Persist development dependencies
 
   postgres:
     image: postgres:16-alpine
@@ -64,6 +49,5 @@ services:
       - redis:/redis
 
 volumes:
-  yodaspeak: {}
   postgres: {}
   redis: {}

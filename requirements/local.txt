@@ -14,7 +14,4 @@ pylint-django==2.5.3  # https://github.com/PyCQA/pylint-django
 # ------------------------------------------------------------------------------
 django-extensions==3.2.3  # https://github.com/django-extensions/django-extensions
 
-# Security
-# ------------------------------------------------------------------------------
-doppler-env==0.3.1  # https://github.com/dopplerhq/python-doppler-env
 pyopenssl==23.2.0  # https://github.com/pyca/pyopenssl
