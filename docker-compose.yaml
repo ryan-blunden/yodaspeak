@@ -1,7 +1,7 @@
 services:
   app:
     container_name: app
-    image: ryanblunden/yodaspeak
+    image: ghcr.io/ryanblunden/yodaspeak:latest
     build:
       context: .
       dockerfile: Dockerfile
