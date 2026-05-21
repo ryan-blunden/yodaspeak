@@ -33,6 +33,9 @@ Small Django demo app that translates plain English into a Yoda-style response.
 docker compose up --build
 ```
 
+The app image is configured as `ghcr.io/ryanblunden/yodaspeak:latest`.
+The GitHub Actions workflow at `.github/workflows/publish-ghcr.yml` publishes that image to GHCR on pushes to `main` and on version tags like `v1.0.0`.
+
 The app is served on port `8000` by default. The default `.env` uses SQLite and does not require Redis. To exercise the multi-container path, switch `DATABASE_ENGINE=POSTGRES` and `CACHE_ENABLED=true`.
 
 ## Environment variables
