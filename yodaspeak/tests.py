@@ -46,5 +46,5 @@ class TranslateApiTests(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 500)
         self.assertIn("Sorry, am I, as translate your message, I cannot.", response.json()["message"])

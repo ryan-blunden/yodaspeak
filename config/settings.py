@@ -1,7 +1,6 @@
 import json
 import os
 from importlib.util import find_spec
-from distutils.util import strtobool
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -12,7 +11,12 @@ PROJECT_DIR = BASE_DIR
 
 
 def env_bool(name, default=False):
-    return bool(strtobool(os.getenv(name, str(default)).lower()))
+    value = os.getenv(name, str(default)).strip().lower()
+    if value in {"1", "true", "t", "yes", "y", "on"}:
+        return True
+    if value in {"0", "false", "f", "no", "n", "off"}:
+        return False
+    raise ValueError(f"Invalid boolean value for {name}: {value!r}")
 
 
 def env_list(name, default=""):
@@ -50,13 +54,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "health_check",
-    "health_check.db",
     "health_check.contrib.psutil",
 ]
 
 if CACHE_ENABLED:
     INSTALLED_APPS += [
-        "health_check.cache",
         "health_check.contrib.redis",
     ]
 

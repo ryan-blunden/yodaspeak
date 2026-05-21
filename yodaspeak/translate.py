@@ -1,5 +1,5 @@
 from django.conf import settings
-from openai import OpenAI
+from openai import BadRequestError, OpenAI
 from openai.types.chat import ChatCompletionMessageParam
 
 
@@ -16,10 +16,22 @@ def translate_request(phrase: str) -> str:
     ]
 
     client = OpenAI(api_key=settings.OPENAI_API_KEY or None)
-    response = client.chat.completions.create(
-        model=settings.OPENAI_MODEL,
-        messages=messages,
-        temperature=0.7,
-        max_tokens=500,
-    )
+    request_kwargs = {
+        "model": settings.OPENAI_MODEL,
+        "messages": messages,
+        "temperature": 0.7,
+    }
+    try:
+        response = client.chat.completions.create(
+            **request_kwargs,
+            max_completion_tokens=500,
+        )
+    except BadRequestError as exc:
+        # Some older chat-completions models only support max_tokens.
+        if "max_completion_tokens" not in str(exc):
+            raise
+        response = client.chat.completions.create(
+            **request_kwargs,
+            max_tokens=500,
+        )
     return response.choices[0].message.content or ""
