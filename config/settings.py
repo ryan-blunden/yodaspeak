@@ -37,12 +37,12 @@ if dotenv_path.exists():
     load_dotenv(dotenv_path)
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-DEBUG = env_bool("DEBUG")
+DEBUG = env_bool("DEBUG", False)
 CACHE_ENABLED = env_bool("CACHE_ENABLED")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#std:setting-ALLOWED_HOSTS
-ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "127.0.0.1,localhost,testserver")
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "127.0.0.1,localhost")
 
 # Application definitions
 INSTALLED_APPS = [

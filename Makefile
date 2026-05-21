@@ -17,3 +17,9 @@ docker:
 	  --env-file .env \
 	  -p 8000:8000 \
 	  ghcr.io/ryan-blunden/yodaspeak:latest
+
+docker-compose:
+	docker-compose up --build
+
+docker-compose-data:
+	docker compose --profile data up --build
