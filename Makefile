@@ -1,4 +1,5 @@
-.PHONY: install dev-server
+.PHONY: install dev-server docker
+SHELL := /bin/bash
 
 install:
 	python3 -m venv .venv
@@ -7,3 +8,12 @@ install:
 
 dev-server:
 	.venv/bin/python manage.py runserver 0.0.0.0:8000
+
+docker:
+	docker run \
+	  -it \
+	  --rm \
+	  --name yodaspeak \
+	  --env-file .env \
+	  -p 8000:8000 \
+	  ghcr.io/ryan-blunden/yodaspeak:latest
