@@ -16,6 +16,10 @@ RUN groupadd -g "${GID}" yodaspeak \
 && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" yodaspeak\
   && chown yodaspeak:yodaspeak -R /app
 
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends curl \
+  && rm -rf /var/lib/apt/lists/*
+
 USER yodaspeak
 
 COPY --chown=yodaspeak:yodaspeak requirements/ ./requirements
@@ -31,5 +35,8 @@ WORKDIR /app
 ENTRYPOINT ["/app/bin/entrypoint.sh"]
 
 EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl --fail --silent --show-error http://127.0.0.1:8000/health-check/ || exit 1
 
 CMD ["gunicorn", "-c", "python:config.gunicorn", "config.wsgi"]

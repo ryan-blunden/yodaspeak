@@ -23,7 +23,11 @@ class Message(Schema):
 
 
 def get_sample_translation(text: str) -> str | None:
-    return settings.TRANSLATE_SAMPLES.get(text[:100])
+    sample_text = text[:100].casefold()
+    for phrase, translation in settings.TRANSLATE_SAMPLES.items():
+        if phrase.casefold() == sample_text:
+            return translation
+    return None
 
 
 @api.post("/translate", response={200: TranslateResponse, 400: Message, 500: Message})

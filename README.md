@@ -45,7 +45,6 @@ The app is served on port `8000` by default. The default `.env` uses SQLite and 
 - `CACHE_ENABLED`: enables Redis-backed cache and Redis health checks
 - `OPENAI_API_KEY`: API key for live translations
 - `OPENAI_MODEL`: model name used for translations
-- `TRANSLATE_SAMPLES_ENABLED`: when true, uses `translate_samples.json`
 
 ## Tests
 
@@ -56,7 +55,7 @@ python manage.py test
 ## Notes
 
 - The API endpoint is `POST /api/translate`.
-- If sample translations are enabled and a matching sample exists, the app returns that sample instead of calling OpenAI.
+- If `config/translate_samples.json` exists and a matching sample is found, the app returns that sample instead of calling OpenAI.
 - Redis is conditional and only used when `CACHE_ENABLED=true` (see `config/settings.py`).
 - With `CACHE_ENABLED=false`, the app runs without Redis.
 - The provided `docker-compose.yaml` still starts Redis and Postgres services for consistency with multi-service demos.
