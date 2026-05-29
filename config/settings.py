@@ -42,7 +42,7 @@ CACHE_ENABLED = env_bool("CACHE_ENABLED")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#std:setting-ALLOWED_HOSTS
-ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "127.0.0.1,localhost")
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "*")
 
 # Application definitions
 INSTALLED_APPS = [
