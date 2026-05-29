@@ -24,6 +24,17 @@ class TranslateApiTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"translation": "There hello, hmm?"})
 
+    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {"Hello there": "There hello, hmm?"})
+    def test_translate_returns_sample_case_insensitively(self):
+        response = self.client.post(
+            "/api/translate",
+            data='{"text":"hello THERE"}',
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"translation": "There hello, hmm?"})
+
     @patch("yodaspeak.api.translate_request", return_value="Strong with the Force, you are.")
     @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {})
     def test_translate_returns_openai_translation(self, translate_request):

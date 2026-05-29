@@ -186,7 +186,6 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 YODASPEAK_PROMPT = read_text(CONFIG_DIR / "yodaspeak_prompt.txt")
 
 TRANSLATE_SAMPLES = {}
-if env_bool("TRANSLATE_SAMPLES_ENABLED"):
-    translate_samples_path = CONFIG_DIR / "translate_samples.json"
-    if translate_samples_path.exists():
-        TRANSLATE_SAMPLES = read_json(translate_samples_path)
+translate_samples_path = CONFIG_DIR / "translate_samples.json"
+if translate_samples_path.exists():
+    TRANSLATE_SAMPLES = read_json(translate_samples_path)
