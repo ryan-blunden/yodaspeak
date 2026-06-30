@@ -1,4 +1,4 @@
-name: Build and Push Container (ryan-blunden-yodaspeak / app_3FqAMhA71ppOo90FME7frgr5zwc)
+name: Build and Push Container (yodaspeak / app_3FqAMhA71ppOo90FME7frgr5zwc)
 
 on:
   push:
