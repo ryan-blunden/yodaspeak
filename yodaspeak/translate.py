@@ -2,7 +2,7 @@ from django.conf import settings
 from openai import APIConnectionError, APIStatusError, AuthenticationError, OpenAI, RateLimitError
 from openai.types.chat import ChatCompletionMessageParam
 
-client = OpenAI(api_key=settings.OPENAI_API_KEY or None, max_retries=0, timeout=20.0)
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
 class TranslationError(Exception):
@@ -27,9 +27,6 @@ def translate_request(phrase: str) -> str:
     request_kwargs = {
         "model": settings.OPENAI_MODEL,
         "messages": messages,
-        "reasoning_effort": "minimal",
-        "verbosity": "low",
-        "max_completion_tokens": 60,
     }
     try:
         response = client.chat.completions.create(**request_kwargs)

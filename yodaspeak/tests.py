@@ -1,8 +1,9 @@
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.test import RequestFactory, SimpleTestCase, TestCase
 
-from .translate import TranslationError
+from .translate import TranslationError, translate_request
 from .views import index
 
 
@@ -81,3 +82,19 @@ class TranslateApiTests(TestCase):
             response.json(),
             {"message": "Could not finish the message because max_tokens or model output limit was reached."},
         )
+
+
+class TranslateRequestTests(SimpleTestCase):
+    @patch("yodaspeak.translate.client.chat.completions.create")
+    def test_translate_request_returns_message_content(self, create):
+        create.return_value = SimpleNamespace(
+            choices=[
+                SimpleNamespace(
+                    message=SimpleNamespace(content="Much to learn, you still have."),
+                    finish_reason="stop",
+                )
+            ],
+            usage=None,
+        )
+
+        self.assertEqual(translate_request("You still have much to learn."), "Much to learn, you still have.")

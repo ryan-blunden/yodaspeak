@@ -41,6 +41,6 @@ def translate(request: HttpRequest, translate: TranslateRequest):
     except TranslationError as exc:
         logger.warning("Translation request failed: %s", exc.message)
         return exc.status_code, {"message": exc.message}
-    except Exception:
+    except Exception as exc:
         logger.exception("Translation request failed")
-        return 500, {"message": "Sorry, am I, as translate your message, I cannot."}
+        return 500, {"message": f"Sorry, am I, as translate your message, I cannot. ({exc})"}

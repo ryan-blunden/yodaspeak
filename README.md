@@ -44,6 +44,7 @@ The app is served on port `8000` by default. The default `.env` uses SQLite and 
 - `DATABASE_ENGINE`: `SQLITE` or `POSTGRES`
 - `CACHE_ENABLED`: enables Redis-backed cache and Redis health checks
 - `OPENAI_API_KEY`: API key for live translations
+- `OPENAI_BASE_URL`: optional OpenAI-compatible base URL such as `http://localhost:1234/v1`
 - `OPENAI_MODEL`: model name used for translations
 
 ## Tests
