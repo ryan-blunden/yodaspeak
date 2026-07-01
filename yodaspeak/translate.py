@@ -19,7 +19,6 @@ def translate_request(phrase: str) -> str:
     request_kwargs = {
         "model": settings.OPENAI_MODEL,
         "messages": messages,
-        "temperature": 0.7,
     }
     try:
         response = client.chat.completions.create(
