@@ -1,6 +1,13 @@
 from django.conf import settings
-from openai import BadRequestError, OpenAI
+from openai import APIConnectionError, APIStatusError, AuthenticationError, OpenAI, RateLimitError
 from openai.types.chat import ChatCompletionMessageParam
+
+
+class TranslationError(Exception):
+    def __init__(self, message: str, status_code: int = 500):
+        super().__init__(message)
+        self.message = message
+        self.status_code = status_code
 
 
 def translate_request(phrase: str) -> str:
@@ -21,16 +28,14 @@ def translate_request(phrase: str) -> str:
         "messages": messages,
     }
     try:
-        response = client.chat.completions.create(
-            **request_kwargs,
-            max_completion_tokens=500,
-        )
-    except BadRequestError as exc:
-        # Some older chat-completions models only support max_tokens.
-        if "max_completion_tokens" not in str(exc):
-            raise
-        response = client.chat.completions.create(
-            **request_kwargs,
-            max_tokens=500,
-        )
+        response = client.chat.completions.create(**request_kwargs)
+    except AuthenticationError as exc:
+        raise TranslationError("OpenAI authentication failed. Check the configured API key.", 502) from exc
+    except RateLimitError as exc:
+        raise TranslationError("OpenAI rate limit reached. Try again shortly.", 429) from exc
+    except APIConnectionError as exc:
+        raise TranslationError("Could not reach OpenAI. Try again shortly.", 502) from exc
+    except APIStatusError as exc:
+        message = exc.message or "OpenAI request failed."
+        raise TranslationError(message, 502) from exc
     return response.choices[0].message.content or ""

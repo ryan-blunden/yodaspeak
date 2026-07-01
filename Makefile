@@ -1,5 +1,16 @@
-.PHONY: install dev-server docker
+.PHONY: help install dev-server test docker docker-compose docker-compose-data
+.DEFAULT_GOAL := help
 SHELL := /bin/bash
+
+help:
+	@printf '%s\n' \
+	  'Available targets:' \
+	  '  install' \
+	  '  dev-server' \
+	  '  test' \
+	  '  docker' \
+	  '  docker-compose' \
+	  '  docker-compose-data'
 
 install:
 	python3 -m venv .venv
@@ -8,6 +19,9 @@ install:
 
 dev-server:
 	.venv/bin/python manage.py runserver 0.0.0.0:8000
+
+test:
+	.venv/bin/python manage.py test
 
 docker:
 	docker run \

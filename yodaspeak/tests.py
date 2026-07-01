@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from django.test import RequestFactory, SimpleTestCase, TestCase
 
+from .translate import TranslationError
 from .views import index
 
 
@@ -59,3 +60,24 @@ class TranslateApiTests(TestCase):
 
         self.assertEqual(response.status_code, 500)
         self.assertIn("Sorry, am I, as translate your message, I cannot.", response.json()["message"])
+
+    @patch(
+        "yodaspeak.api.translate_request",
+        side_effect=TranslationError(
+            "Could not finish the message because max_tokens or model output limit was reached.",
+            502,
+        ),
+    )
+    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {})
+    def test_translate_returns_provider_message_for_translation_error(self, _translate_request):
+        response = self.client.post(
+            "/api/translate",
+            data='{"text":"ngrok ship is brilliant"}',
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 502)
+        self.assertEqual(
+            response.json(),
+            {"message": "Could not finish the message because max_tokens or model output limit was reached."},
+        )
