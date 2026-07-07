@@ -3,7 +3,11 @@ from unittest.mock import patch
 
 from django.test import RequestFactory, SimpleTestCase, TestCase
 
-from .translate import TranslationError, translate_request
+from .translate import (
+    TranslationError,
+    _extract_provider_error,
+    translate_request,
+)
 from .views import index
 
 
@@ -15,30 +19,7 @@ class ViewTests(SimpleTestCase):
 
 
 class TranslateApiTests(TestCase):
-    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {"Hello there": "There hello, hmm?"})
-    def test_translate_returns_sample_when_available(self):
-        response = self.client.post(
-            "/api/translate",
-            data='{"text":"Hello there"}',
-            content_type="application/json",
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"translation": "There hello, hmm?"})
-
-    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {"Hello there": "There hello, hmm?"})
-    def test_translate_returns_sample_case_insensitively(self):
-        response = self.client.post(
-            "/api/translate",
-            data='{"text":"hello THERE"}',
-            content_type="application/json",
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"translation": "There hello, hmm?"})
-
     @patch("yodaspeak.api.translate_request", return_value="Strong with the Force, you are.")
-    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {})
     def test_translate_returns_openai_translation(self, translate_request):
         response = self.client.post(
             "/api/translate",
@@ -51,7 +32,6 @@ class TranslateApiTests(TestCase):
         translate_request.assert_called_once_with("You are strong with the Force.")
 
     @patch("yodaspeak.api.translate_request", side_effect=RuntimeError("missing key"))
-    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {})
     def test_translate_returns_error_message_when_translation_fails(self, _translate_request):
         response = self.client.post(
             "/api/translate",
@@ -69,7 +49,6 @@ class TranslateApiTests(TestCase):
             502,
         ),
     )
-    @patch("yodaspeak.api.settings.TRANSLATE_SAMPLES", {})
     def test_translate_returns_provider_message_for_translation_error(self, _translate_request):
         response = self.client.post(
             "/api/translate",
@@ -85,6 +64,25 @@ class TranslateApiTests(TestCase):
 
 
 class TranslateRequestTests(SimpleTestCase):
+    def test_extract_provider_error_message_prefers_string_body(self):
+        exc = SimpleNamespace(
+            body='[ERR_NGROK_27202] No keys available for provider "groq".',
+            message="Error code: 502",
+        )
+
+        self.assertEqual(
+            _extract_provider_error(exc),
+            '[ERR_NGROK_27202] No keys available for provider "groq".',
+        )
+
+    def test_extract_provider_error_message_falls_back_to_plain_message(self):
+        exc = SimpleNamespace(message='[ERR_NGROK_27202] No keys available for provider "groq".')
+
+        self.assertEqual(
+            _extract_provider_error(exc),
+            '[ERR_NGROK_27202] No keys available for provider "groq".',
+        )
+
     @patch("yodaspeak.translate.client.chat.completions.create")
     def test_translate_request_returns_message_content(self, create):
         create.return_value = SimpleNamespace(

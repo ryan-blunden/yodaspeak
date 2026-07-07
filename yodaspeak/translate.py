@@ -12,6 +12,18 @@ class TranslationError(Exception):
         self.status_code = status_code
 
 
+def _extract_provider_error(exc: Exception) -> str:
+    body = getattr(exc, "body", None)
+
+    if isinstance(body, str):
+        return body
+    if isinstance(body, dict):
+        return body.get("message", str(body))
+    if body:
+        return str(body)
+    return getattr(exc, "message", str(exc))
+
+
 def translate_request(phrase: str) -> str:
     messages: list[ChatCompletionMessageParam] = [
         {
@@ -31,12 +43,11 @@ def translate_request(phrase: str) -> str:
     try:
         response = client.chat.completions.create(**request_kwargs)
     except AuthenticationError as exc:
-        raise TranslationError("OpenAI authentication failed. Check the configured API key.", 502) from exc
+        raise TranslationError(f"Authentication failed: {_extract_provider_error(exc)}", 502) from exc
     except RateLimitError as exc:
-        raise TranslationError("OpenAI rate limit reached. Try again shortly.", 429) from exc
+        raise TranslationError(f"Rate limit reached: {_extract_provider_error(exc)}", 429) from exc
     except APIConnectionError as exc:
-        raise TranslationError("Could not reach OpenAI. Try again shortly.", 502) from exc
+        raise TranslationError(f"Could not reach Provider: {_extract_provider_error(exc)}", 502) from exc
     except APIStatusError as exc:
-        message = exc.message or "OpenAI request failed."
-        raise TranslationError(message, 502) from exc
-    return response.choices[0].message.content or ""
+        raise TranslationError(_extract_provider_error(exc), 502) from exc
+    return response.choices[0].message.content.replace('"', "") or ""

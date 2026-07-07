@@ -3,6 +3,12 @@
   "flake8.args": [
     "--config=.flake8"
   ],
+  "[html]": {
+    "editor.formatOnSave": false,
+  },
+  "[django-html]": {
+    "editor.formatOnSave": false,
+  },
   "files.watcherExclude": {
     ".git/objects/**": true,
     ".git/subtree-cache/**": true,

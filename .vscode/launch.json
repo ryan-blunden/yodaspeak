@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "python: server",
+            "name": "Dev Server",
             "type": "debugpy",
             "request": "launch",
             "program": "manage.py",

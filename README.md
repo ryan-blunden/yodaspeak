@@ -15,7 +15,6 @@ Small Django demo app that translates plain English into a Yoda-style response.
 - `config/`: Django project configuration
 - `yodaspeak/`: app views, API, tests, templates, and static assets
 - `config/yodaspeak_prompt.txt`: system prompt sent to OpenAI
-- `config/translate_samples.json`: optional built-in sample translations
 
 ## Running locally
 
@@ -56,7 +55,6 @@ python manage.py test
 ## Notes
 
 - The API endpoint is `POST /api/translate`.
-- If `config/translate_samples.json` exists and a matching sample is found, the app returns that sample instead of calling OpenAI.
 - Redis is conditional and only used when `CACHE_ENABLED=true` (see `config/settings.py`).
 - With `CACHE_ENABLED=false`, the app runs without Redis.
 - The provided `docker-compose.yaml` still starts Redis and Postgres services for consistency with multi-service demos.

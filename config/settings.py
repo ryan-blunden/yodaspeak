@@ -180,12 +180,8 @@ STATICFILES_FINDERS = (
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # App Settings
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 YODASPEAK_PROMPT = read_text(CONFIG_DIR / "yodaspeak_prompt.txt")
-
-TRANSLATE_SAMPLES = {}
-translate_samples_path = CONFIG_DIR / "translate_samples.json"
-if translate_samples_path.exists():
-    TRANSLATE_SAMPLES = read_json(translate_samples_path)
