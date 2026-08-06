@@ -159,7 +159,7 @@ resource "coder_agent" "main" {
 
         printf "\n[info]: Installing dependencies\n"
         cd "$REPO_PATH"
-        pip install -r requirements/local.txt
+        pip install -r requirements-local.txt
       fi
 
       touch ~/.init_done

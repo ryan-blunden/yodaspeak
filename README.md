@@ -22,7 +22,7 @@ Small Django demo app that translates plain English into a Yoda-style response.
 2. Set `DJANGO_SECRET_KEY`, `ALLOWED_HOSTS`, and optionally `OPENAI_API_KEY`.
 3. Install the dependencies:
    - `make install` (recommended), or
-   - `python3 -m venv .venv && .venv/bin/pip install -r requirements/local.txt`
+   - `python3 -m venv .venv && .venv/bin/pip install -r requirements-local.txt`
 4. Run migrations: `.venv/bin/python manage.py migrate`
 5. Start the server: `.venv/bin/python manage.py runserver`
 
