@@ -1,5 +1,11 @@
 from django.conf import settings
-from openai import APIConnectionError, APIStatusError, AuthenticationError, OpenAI, RateLimitError
+from openai import (
+    APIConnectionError,
+    APIStatusError,
+    AuthenticationError,
+    OpenAI,
+    RateLimitError,
+)
 from openai.types.chat import ChatCompletionMessageParam
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
