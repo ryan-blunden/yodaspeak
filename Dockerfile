@@ -13,7 +13,7 @@ ENV PATH="${PATH}:/home/yodaspeak/.local/bin"
 WORKDIR /app
 
 RUN groupadd -g "${GID}" yodaspeak \
-&& useradd --create-home --no-log-init -u "${UID}" -g "${GID}" yodaspeak\
+  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" yodaspeak\
   && chown yodaspeak:yodaspeak -R /app
 
 RUN apt-get update \
@@ -22,11 +22,11 @@ RUN apt-get update \
 
 USER yodaspeak
 
-COPY --chown=yodaspeak:yodaspeak requirements/ ./requirements
+COPY --chown=yodaspeak:yodaspeak requirements/*.txt ./requirements
 COPY --chown=yodaspeak:yodaspeak bin/ ./bin
 
 RUN chmod 0755 bin/* && \
-pip install --no-warn-script-location --no-cache-dir --user -r requirements/production.txt
+  pip install --no-warn-script-location --no-cache-dir --user -r requirements/production.txt
 
 COPY --chown=yodaspeak:yodaspeak . .
 
