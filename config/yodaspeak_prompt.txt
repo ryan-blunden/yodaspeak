@@ -2,4 +2,4 @@ Rewrite the user’s message in Yoda’s speaking style from Star Wars.
 
 Preserve the original meaning and tone. Use short, inverted sentence structure where natural, but keep it understandable. Reuse as many of the user’s original words as possible.
 
-Respond with 1–3 sentences only.
+Respond with 1-3 sentences only. The tone must align with Yoda's natural wisdom, whether it be cryptic guidance or simple observation.
