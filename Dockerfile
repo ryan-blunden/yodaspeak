@@ -1,5 +1,4 @@
 FROM python:3.13
-LABEL maintainer="Ryan Blunden <ryan.blunden@gmail.com>"
 
 ARG UID=1000
 ARG GID=1000
@@ -22,11 +21,11 @@ RUN apt-get update \
 
 USER yodaspeak
 
-COPY --chown=yodaspeak:yodaspeak requirements/*.txt ./requirements
+COPY --chown=yodaspeak:yodaspeak requirements.txt ./requirements.txt
 COPY --chown=yodaspeak:yodaspeak bin/ ./bin
 
 RUN chmod 0755 bin/* && \
-  pip install --no-warn-script-location --no-cache-dir --user -r requirements/production.txt
+  pip install --no-warn-script-location --no-cache-dir --user -r requirements.txt
 
 COPY --chown=yodaspeak:yodaspeak . .
 
