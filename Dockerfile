@@ -22,11 +22,11 @@ RUN apt-get update \
 
 USER yodaspeak
 
-COPY --chown=yodaspeak:yodaspeak requirements/*.txt ./requirements
+COPY --chown=yodaspeak:yodaspeak requirements.txt ./requirements.txt
 COPY --chown=yodaspeak:yodaspeak bin/ ./bin
 
 RUN chmod 0755 bin/* && \
-  pip install --no-warn-script-location --no-cache-dir --user -r requirements/production.txt
+  pip install --no-warn-script-location --no-cache-dir --user -r requirements.txt
 
 COPY --chown=yodaspeak:yodaspeak . .
 

@@ -26,6 +26,13 @@ jobs:
           username: "creg_3FqAMnbJlyZHLdGPcvYzjGAoHKG"
           password: "${{ secrets.NGROK_REGISTRY_PASSWORD_CREG_3FQAMNBJLYZHLDGPCVYZJGAOHKG }}"
 
+      - id: "meta"
+        uses: "docker/metadata-action@v6"
+        with:
+          images: "${{ env.IMAGE_REFERENCE }}"
+          tags: |
+            type=sha,format=long,prefix=
+
       - name: "Install Railpack"
         env:
           RAILPACK_VERSION: "0.30.0"
@@ -64,7 +71,8 @@ jobs:
           file: "${{ runner.temp }}/railpack-plan.json"
           platforms: "linux/${{ matrix.architecture }}"
           push: true
-          tags: "${{ env.IMAGE_REFERENCE }}:${{ github.sha }}-${{ matrix.architecture }}"
+          tags: "${{ steps.meta.outputs.tags }}-${{ matrix.architecture }}"
+          labels: "${{ steps.meta.outputs.labels }}"
           build-args: |
             BUILDKIT_SYNTAX=ghcr.io/railwayapp/railpack-frontend:v0.30.0
             cache-key=${{ env.NGROK_APP_ID }}-${{ matrix.architecture }}
@@ -83,19 +91,26 @@ jobs:
           username: "creg_3FqAMnbJlyZHLdGPcvYzjGAoHKG"
           password: "${{ secrets.NGROK_REGISTRY_PASSWORD_CREG_3FQAMNBJLYZHLDGPCVYZJGAOHKG }}"
 
+      - id: "meta"
+        uses: "docker/metadata-action@v6"
+        with:
+          images: "${{ env.IMAGE_REFERENCE }}"
+          tags: |
+            type=sha,format=long,prefix=
+
       - uses: "docker/setup-buildx-action@v4"
 
       - name: "Create multi-platform image"
         run: |
           docker buildx imagetools create \
-            --tag "${IMAGE_REFERENCE}:${GITHUB_SHA}" \
-            "${IMAGE_REFERENCE}:${GITHUB_SHA}-amd64" \
-            "${IMAGE_REFERENCE}:${GITHUB_SHA}-arm64"
+            --tag "${{ steps.meta.outputs.tags }}" \
+            "${{ steps.meta.outputs.tags }}-amd64" \
+            "${{ steps.meta.outputs.tags }}-arm64"
 
       - name: "Write image reference"
         run: |
           cat <<EOF > ngrok-image.json
-          {"image":"${IMAGE_REFERENCE}:${GITHUB_SHA}","commit_sha":"${GITHUB_SHA}"}
+          {"image":"${{ steps.meta.outputs.tags }}","commit_sha":"${{ github.sha }}"}
           EOF
 
       - uses: "actions/upload-artifact@v7"
