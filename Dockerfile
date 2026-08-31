@@ -1,4 +1,4 @@
-FROM python:3.13
+FROM python:3.13-slim
 
 ARG UID=1000
 ARG GID=1000
@@ -16,7 +16,7 @@ RUN groupadd -g "${GID}" yodaspeak \
   && chown yodaspeak:yodaspeak -R /app
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl \
+  && apt-get install -y --no-install-recommends curl libpq5 \
   && rm -rf /var/lib/apt/lists/*
 
 USER yodaspeak
