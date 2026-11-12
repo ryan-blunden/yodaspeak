@@ -11,6 +11,8 @@ For every coding, debugging, refactoring, or code-review task:
 7. Run the most relevant available tests, type checks, linters, or build commands.
 8. Investigate command failures using their actual output; do not guess.
 
+When testing a server, tunnel, or other long-running process, stop any process you started before finishing. Use a cleanup trap or equivalent, verify it has stopped, and leave processes that were already running alone. If a test requires replacing an existing process, restore it afterward or explain why it could not be restored. For ngrok, use a temporary endpoint for testing where possible so the user's demo tunnel stays under their control.
+
 If the request is ambiguous or materially different approaches exist, ask before making a large or destructive change.
 
 ## Context Discipline
