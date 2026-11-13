@@ -34,7 +34,9 @@ class App {
     this.translation.classList.remove("show");
 
     const reveal = (translation) => {
-      this.translation.innerText = `"${translation}"`;
+      const sentences = new Intl.Segmenter("en", { granularity: "sentence" });
+      const lines = Array.from(sentences.segment(translation), ({ segment }) => segment.trim());
+      this.translation.textContent = `"${lines.join("\n")}"`;
       this.translation.classList.remove("hide");
       this.translation.classList.add("show");
     };
